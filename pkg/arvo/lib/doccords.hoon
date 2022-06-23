@@ -11577,7 +11577,7 @@
   ++  docs
     |%
     ::
-    ::  above core
+    ::  above hoon
     ++  apex
       %+  cook
         |=  $:  a=(unit (pair cord (list sect)))
@@ -11594,31 +11594,25 @@
         (easy ~)                                        ::  defs used (none)
       ==
     ::
-    ::  +vext: parser for batch comments
+    ::  +vext: parser for batch comments inside of cores
     ++  vext
       %-  star
-      %+  cook
-        |=  $:  $:  a=(unit link)
-                    b=(unit (pair cord (list sect)))
-                ==
-                c=(map term (pair cord (list sect)))
-                d=(set term)
-            ==
-        [a b c d]
       ;~  less
-        ::  there has to be a better fail condition than this
+        ::  find a better fail condition than this
         ;~(plug gap lus lus)
         ;~(plug gap lus buc)
         ;~(plug gap lus tar)
         ;~  plug
-          (call dibs)                                     ::  link and body
+          (ingo (punt dibs))                              ::  link
+          ::
+          =/  ron  (punt (indo null))
+          (ifix [ron ron] (punt shot))                    ::  body
           ::
           (cook malt (star fill))                         ::  definitions
           ::
           (easy ~)                                        ::  defs used (none)
         ==
       ==
-
     ::
     ::  backward line
     ::
@@ -11641,7 +11635,6 @@
     ::    ^-  whit
     ::    =;  def  [lab boy (malt def) ~]
     ::    (turn def |=([[a=term b=cord] c=(list sect)] [a [b c]]))
-    ::
     ::
     ++  body
       ;~  pose
@@ -11671,22 +11664,7 @@
       ==
     ::
     ++  shot
-      |*  bod=rule
-      ;~(plug ;~(sfix line (just `@`10) (punt gap)) bod)
-    ::
-    ++  seat
-      ;~  pose
-        (shot (rant ;~(less tine text)))
-        (shot (easy ~))
-      ==
-    ::
-    ++  call
-      |*  bod=rule
-      ;~  plug
-        (ingo bod)
-        =/  ron  (punt (indo null))
-        (ifix [ron ron] (punt seat))
-      ==
+      ;~(plug ;~(sfix line (just `@`10) (punt gap)) (rant ;~(less tine text)))
     ::
     ++  text  (pick line code)                          ::  text line
     ++  line  ;~(less ace (cook crip (star prn)))       ::  prose line
@@ -11717,11 +11695,7 @@
       ;~(pfix col gar ;~(sfix bod (just `@`10) (punt gap)))
     ++  ingo
       |*  bod=rule
-      ;~(pfix col gar step ;~(sfix (punt bod) col ace))
-    ::
-    ++  ingox
-      |*  bod=rule
-      ;~(pfix col gar step (punt bod))
+      ;~(pfix col gar step ;~(sfix bod col ace))
     ::
     ++  exit
       |*  bod=rule
@@ -11736,18 +11710,6 @@
         (rant ;~(pfix step text))
         (punt (indo null))
       ==
-    ::
-    ::  ++  hill
-    ::    ::%+  cook
-    ::    ::  |=  [[a=link b=cord] c=(list sect)]
-    ::    ::  [(some a) (some [b c])]
-    ::    ;~  plug
-    ::      (ingox tine)
-    ::      :~  pose
-    ::        (rant text)
-    ::        (easy ~)
-    ::      ==
-    ::    ==
     ::
     ::  rant: series of sections.
     ::
@@ -13355,7 +13317,6 @@
       %+  knee  [p=*term q=*hoon]  |.  ~+
       %+  cook
         |=  [a=(list whit) b=term d=hoon]
-        ~&  a
         |-
         ?~  a  [b d]
         ?~  lab.i.a  $(a t.a)
