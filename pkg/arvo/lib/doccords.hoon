@@ -11590,11 +11590,11 @@
       ;~  plug
         ;~  pose
           (call dibs)
-          ;~  plug
-            (easy ~)
-            =/  ron  (punt (indo null))
-            (ifix [ron ron] (punt body))
-          ==
+          ::  ;~  plug
+          ::    (easy ~)
+          ::    =/  ron  (punt (indo null))
+          ::    (ifix [ron ron] (punt body))
+          ::  ==
           ;~  plug
             (easy ~)
             (easy ~)
@@ -11616,7 +11616,6 @@
       ::
         (easy *whit)
       ==
-    ::
     ::
     ::  ++  beer
     ::    |=  $:  lab=(unit term)
@@ -11660,12 +11659,9 @@
       ;~(plug ;~(sfix line (just `@`10) (punt gap)) bod)
     ::
     ++  seat
-      ;~  less
-        (ingo dibs)
-        ;~  pose
-          (shot (rant text))
-          (shot (easy ~))
-        ==
+      ;~  pose
+        (shot (rant ;~(less tine text)))
+        (shot (easy ~))
       ==
     ::
     ++  call
@@ -11677,8 +11673,7 @@
       ==
     ::
     ++  text  (pick line code)                          ::  text line
-    ::  TODO: the buc and lus in +line was a kludge to get batch comments working, fix this parser
-    ++  line  ;~(less ace buc lus (cook crip (star prn)))       ::  prose line
+    ++  line  ;~(less ace (cook crip (star prn)))       ::  prose line
     ++  code  ;~(pfix step step (cook crip (star prn))) ::  code line
     ++  noel  ;~(plug (punt ;~(pfix step hax)) null)    ::  header padding
     ++  null  (cold ~ (star ace))                       ::  blank line
