@@ -13410,11 +13410,12 @@
       ::  lestify
       |=  a=(list term)
       ?~(a !! a)
+    ::
     ++  whap  !:                                        ::  chapter
       %+  cook
         |=  a=(list (pair term hoon))
         ::  check hoons for notes and move them to the correct arm
-        %-  whir
+        %-  drip
         |-  ^-  (map term hoon)
         ?~  a  ~
         =+  $(a t.a)
@@ -13425,60 +13426,43 @@
         q.i.a
       (most muck boog)
     ::
-    ::  +whir: checks hoons for wrapped notes and moves them to the correct arm
-    ::  used for batch comment processing
-    ++  whir
-      |=  a=(map term hoon)
+    ::  +drip: moves batch comments to the correct arm
+    ++  drip
+      |=  dab=(map term hoon)
       ^-  (map term hoon)
-      =/  nots=(list help)  (waff ~(val by a))
-      ::  removes the notes from each hoon
-      =/  nuto=(map term hoon)  (~(run by a) ward)
-      |-
-      ?~  nots  nuto
-      =/  not=help  i.nots
-      ::  if there is no link, its not part of a batch comment
-      ?~  links.not
-        $(nots t.nots)
-      =/  lin=link  i.links.not
-      =/  nom=term
-        ?+  lin  %$
-          [%chat *]  p.lin
-          [%frag *]  p.lin
-          [%funk *]  p.lin
-          [%grog *]  p.lin
-        ==
-      ?:  (~(has by nuto) nom)
-        =/  gen=hoon  (~(got by nuto) nom)
+      ::  strips each hoon of wrapped help notes and puts them in a list
+      =/  [duds=(list help) nude=(map term hoon)]
+        %+  ~(rib by dab)  *(list help)
+        |=  [[a=term gen=hoon] duds=(list help)]
+        ^-  [(list help) [term hoon]]
+        |-
+        ?.  ?=([%note *] gen)
+          [duds [a gen]]
+        ?.  ?=([%help *] p.gen)
+          [duds [a gen]]
         %=  $
-          nuto  (~(gas by nuto) ~[[nom [%note [%help not] gen]]])
-          nots  t.nots
+          gen   q.gen
+          duds  (snoc duds p.p.gen)
         ==
-      ~&  ['batch comment has no matching arm' not]
-      $(nots t.nots)
-    ::
-    ++  waff
-      |=  gens=(list hoon)
-      ^-  (list help)
-      =|  nots=(list help)
       |-
-      ?~  gens  nots
-      =/  gen  i.gens
-      |-
-      ?:  ?=([%note *] gen)
-        ?:  ?=([%help *] p.gen)
-          $(nots (snoc nots p.p.gen), gen q.gen)
-        ^$(gens t.gens)
-      ^$(gens t.gens)
-    ::
-    ++  ward
-      |=  gen=hoon
-      ^-  hoon
-      |-
-      ?:  ?=([%note *] gen)
-        ?:  ?=([%help *] p.gen)
-          $(gen q.gen)
-        gen
-      gen
+      ?~  duds  nude
+      ::  if there is no link, its not part of a batch comment
+      ?~  links.i.duds
+        $(duds t.duds)
+      =/  nom=term
+        ?-    i.links.i.duds
+            [%cone *]
+          q.i.links.i.duds
+        ::
+            ?([%chat *] [%frag *] [%funk *] [%grog *])
+          p.i.links.i.duds
+        ==
+      %=  $
+        duds  t.duds
+        nude  ?.  (~(has by nude) nom)
+                ~&(nom+'unmatched link' nude)
+              (~(jab by nude) nom |=(a=hoon [%note help+i.duds a]))
+      ==
     ::
     ++  whip                                            ::  chapter declare
       ;~  plug
