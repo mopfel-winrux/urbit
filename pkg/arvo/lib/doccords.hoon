@@ -11587,21 +11587,26 @@
                 d=(set term)
             ==
         [a b c d]
-      ;~  plug
-        ;~  pose
-          (call dibs)
-          ::  ;~  plug
-          ::    (easy ~)
-          ::    =/  ron  (punt (indo null))
-          ::    (ifix [ron ron] (punt body))
-          ::  ==
-          ;~  plug
-            (easy ~)
-            (easy ~)
+      ;~  less
+        ;~(plug gap lus lus)
+        ;~(plug gap lus buc)
+        ;~(plug gap lus tar)
+        ;~  plug
+          ;~  pose
+            (call dibs)
+            ::  ;~  plug
+            ::    (easy ~)
+            ::    =/  ron  (punt (indo null))
+            ::    (ifix [ron ron] (punt body))
+            ::  ==
+            ::  ;~  plug
+            ::    (easy ~)
+            ::    (easy ~)
+            ::  ==
           ==
+          (cook malt (star fill))                         ::  definitions
+          (easy ~)                                        ::  defs used (none)
         ==
-        (cook malt (star fill))                         ::  definitions
-        (easy ~)                                        ::  defs used (none)
       ==
     ::
     ::  backward line
@@ -13338,24 +13343,27 @@
     ++  boog  !:                                        ::  core arms
       %+  knee  [p=*term q=*hoon]  |.  ~+
       %+  cook
-        |=  [a=(list whit) b=term c=whit d=hoon]
-        =/  res=hoon  d
+        |=  [a=(list whit) b=term d=hoon]
+        ~&  a
         |-
-        ?~  a
-          [b res]
-        =/  e=whit  (glom i.a c)
-        ?~  boy.e
-          $(a t.a)
-        ?~  lab.e
-          $(a t.a)
+        ?~  a  [b d]
+        ?~  lab.i.a  $(a t.a)
+        ?~  boy.i.a  $(a t.a)
         %=  $
-          a    t.a
-          res  [%note help+[[u.lab.e]~ u.boy.e] res]
+          a  t.a
+          d  [%note help+[[u.lab.i.a]~ u.boy.i.a] d]
         ==
-::        [b [%note help+[[u.lab.e]~ u.boy.e] d]]
       ;~  pose
+        %+  cook
+          |=  [a=(list whit) b=term c=whit d=hoon]
+          ?:  =([~ ~ ~ ~] c)
+            [a b d]
+          ?~  boy.c
+            [a b d]
+          [a b [%note help+[[funk+b]~ u.boy.c] d]]
         ;~  plug
-          (stun [0 10] apex:docs)  :: star instead?
+          ::(stun [0 10] apex:docs)  :: star doesn't work.
+          (star apex:docs)
           ;~  pfix  (jest '++')
             ;~  plug
               ;~(pfix gap ;~(pose (cold %$ buc) sym))
@@ -13367,9 +13375,14 @@
       ::
         %+  cook
           |=  [a=(list whit) b=term c=whit d=spec]
-          [a b c [%ktcl [%name b d]]]
+          ?:  =([~ ~ ~ ~] c)
+            [a b [%ktcl [%name b d]]]
+          ?~  boy.c
+            [a b [%ktcl [%name b d]]]
+          [a b [%note help+[[grog+b]~ u.boy.c] [%ktcl [%name b d]]]]
         ;~  plug
-          (stun [0 10] apex:docs)
+          ::(stun [0 10] apex:docs)
+          (star apex:docs)
           ;~  pfix  (jest '+$')
             ;~  plug
               ;~(pfix gap sym)
@@ -13381,7 +13394,7 @@
       ::
         %+  cook
           |=  [b=term d=hoon]
-          [*(list whit) b *whit d]
+          [*(list whit) b d]
         ;~  plug
           %+  cook
             |=  [b=term c=(list term) e=spec]
@@ -13513,11 +13526,15 @@
     ++  wisp  !:                                        ::  core tail
       ?.  tol  fail
       %+  cook
-        |=  a=(list [wit=whit wap=(pair term (map term hoon))])
+        |=  a=(list [wits=(list whit) wap=(pair term (map term hoon))])
         ^-  (map term tome)
         =<  p
         |-  ^-  (pair (map term tome) (map term hoon))
         ?~  a  [~ ~]
+        =/  wit=whit
+          ?~  wits.i.a
+            *whit
+          i.wits.i.a
         =/  mor  $(a t.a)
         =.  q.wap.i.a
           %-  ~(urn by q.wap.i.a)
@@ -13528,7 +13545,7 @@
         :_  (~(uni by q.mor) q.wap.i.a)
         %+  ~(put by p.mor)
           p.wap.i.a
-        :-  boy.wit.i.a  :: body of the whit set as the what
+        :-  boy.wit  ::.i.a  :: body of the whit set as the what
         ?.  (~(has by p.mor) p.wap.i.a)
           q.wap.i.a
         [[%$ [%eror (weld "duplicate chapter: |" (trip p.wap.i.a))]] ~ ~]
@@ -13537,8 +13554,8 @@
         dun
         ;~  sfix
           ;~  pose
-            (most muck ;~(plug apex:docs ;~(pfix (jest '+|') ;~(pfix gap whip))))
-            ;~(plug (stag *whit (stag %$ whap)) (easy ~))
+            (most muck ;~(plug (star apex:docs) ;~(pfix (jest '+|') ;~(pfix gap whip))))
+            ;~(plug (stag *(list whit) (stag %$ whap)) (easy ~))
           ==
           gap
           dun
@@ -13848,12 +13865,15 @@
   ++  wrap
     |*  fel=rule
     %+  cook
-      |=  [a=whit b=hoon c=whit]
+      |=  [aa=(list whit) b=hoon c=whit]
       ^-  hoon
+      =/  a=whit
+        ?~  aa  *whit
+        i.aa
       ~(apply-whit ~(docs-engine ap b) (glom a c))
     ::
     ;~  plug
-      apex:docs
+      (star apex:docs)
       fel
       apse:docs
     ==
