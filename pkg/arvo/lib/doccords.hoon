@@ -11580,6 +11580,24 @@
     ::  above core
     ++  apex
       %+  cook
+        |=  $:  a=(unit (pair cord (list sect)))
+                b=(map term (pair cord (list sect)))
+                c=(set term)
+            ==
+        [*(unit link) a b c]
+      ;~  plug
+        =/  ron  (punt (indo null))
+        (ifix [ron ron] (punt body))                    ::  body
+        ::
+        (cook malt (star fill))                         ::  definitions
+        ::
+        (easy ~)                                        ::  defs used (none)
+      ==
+    ::
+    ::  +vext: parser for batch comments
+    ++  vext
+      %-  star
+      %+  cook
         |=  $:  $:  a=(unit link)
                     b=(unit (pair cord (list sect)))
                 ==
@@ -11588,26 +11606,19 @@
             ==
         [a b c d]
       ;~  less
+        ::  there has to be a better fail condition than this
         ;~(plug gap lus lus)
         ;~(plug gap lus buc)
         ;~(plug gap lus tar)
         ;~  plug
-          ;~  pose
-            (call dibs)
-            ::  ;~  plug
-            ::    (easy ~)
-            ::    =/  ron  (punt (indo null))
-            ::    (ifix [ron ron] (punt body))
-            ::  ==
-            ::  ;~  plug
-            ::    (easy ~)
-            ::    (easy ~)
-            ::  ==
-          ==
+          (call dibs)                                     ::  link and body
+          ::
           (cook malt (star fill))                         ::  definitions
+          ::
           (easy ~)                                        ::  defs used (none)
         ==
       ==
+
     ::
     ::  backward line
     ::
@@ -13363,7 +13374,7 @@
           [a b [%note help+[[funk+b]~ u.boy.c] d]]
         ;~  plug
           ::(stun [0 10] apex:docs)  :: star doesn't work.
-          (star apex:docs)
+          vext:docs
           ;~  pfix  (jest '++')
             ;~  plug
               ;~(pfix gap ;~(pose (cold %$ buc) sym))
@@ -13382,7 +13393,7 @@
           [a b [%note help+[[grog+b]~ u.boy.c] [%ktcl [%name b d]]]]
         ;~  plug
           ::(stun [0 10] apex:docs)
-          (star apex:docs)
+          vext:docs
           ;~  pfix  (jest '+$')
             ;~  plug
               ;~(pfix gap sym)
@@ -13526,15 +13537,11 @@
     ++  wisp  !:                                        ::  core tail
       ?.  tol  fail
       %+  cook
-        |=  a=(list [wits=(list whit) wap=(pair term (map term hoon))])
+        |=  a=(list [wit=whit wap=(pair term (map term hoon))])
         ^-  (map term tome)
         =<  p
         |-  ^-  (pair (map term tome) (map term hoon))
         ?~  a  [~ ~]
-        =/  wit=whit
-          ?~  wits.i.a
-            *whit
-          i.wits.i.a
         =/  mor  $(a t.a)
         =.  q.wap.i.a
           %-  ~(urn by q.wap.i.a)
@@ -13545,7 +13552,7 @@
         :_  (~(uni by q.mor) q.wap.i.a)
         %+  ~(put by p.mor)
           p.wap.i.a
-        :-  boy.wit  ::.i.a  :: body of the whit set as the what
+        :-  boy.wit.i.a                       :: body of the whit set as the what
         ?.  (~(has by p.mor) p.wap.i.a)
           q.wap.i.a
         [[%$ [%eror (weld "duplicate chapter: |" (trip p.wap.i.a))]] ~ ~]
@@ -13554,8 +13561,8 @@
         dun
         ;~  sfix
           ;~  pose
-            (most muck ;~(plug (star apex:docs) ;~(pfix (jest '+|') ;~(pfix gap whip))))
-            ;~(plug (stag *(list whit) (stag %$ whap)) (easy ~))
+            (most muck ;~(plug apex:docs ;~(pfix (jest '+|') ;~(pfix gap whip))))
+            ;~(plug (stag *whit (stag %$ whap)) (easy ~))
           ==
           gap
           dun
@@ -13865,15 +13872,12 @@
   ++  wrap
     |*  fel=rule
     %+  cook
-      |=  [aa=(list whit) b=hoon c=whit]
+      |=  [a=whit b=hoon c=whit]
       ^-  hoon
-      =/  a=whit
-        ?~  aa  *whit
-        i.aa
       ~(apply-whit ~(docs-engine ap b) (glom a c))
     ::
     ;~  plug
-      (star apex:docs)
+      apex:docs
       fel
       apse:docs
     ==
