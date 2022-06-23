@@ -11662,8 +11662,8 @@
           :-  '$'
           ;~(pfix buc (stag %grog sym))
       ==
-    ::
     ++  shot
+::      ;~(plug ;~(sfix line (just `@`10) (punt gap)) (rant ;~(less tine text)))
       ;~(plug ;~(sfix line (just `@`10) (punt gap)) (rant ;~(less tine text)))
     ::
     ++  text  (pick line code)                          ::  text line
@@ -11682,7 +11682,6 @@
         (cook crip (star prn))
       ==
     ::
-    ::
     ::  step: indent
     ::  into: :: and indent to end of line, consuming following space.
     ::  indo: :: to end of line, consuming following space.
@@ -11692,10 +11691,10 @@
     ++  into  |*(bod=rule (indo ;~(pfix step bod)))
     ++  indo
       |*  bod=rule
-      ;~(pfix col gar ;~(sfix bod (just `@`10) (punt gap)))
+      (ifix [;~(plug col gar) ;~(plug (just `@`10) (punt gap))] bod)
     ++  ingo
       |*  bod=rule
-      ;~(pfix col gar step ;~(sfix bod col ace))
+      (ifix [;~(plug col gar step) ;~(plug col ace)] bod)
     ::
     ++  exit
       |*  bod=rule
