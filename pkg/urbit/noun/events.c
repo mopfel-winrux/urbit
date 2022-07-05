@@ -71,6 +71,8 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
+static c3_w gar_pag_w;
+
 #ifdef U3_SNAPSHOT_VALIDATION
 /* Image check.
 */
@@ -172,6 +174,62 @@ _ce_mapfree(void* map_v)
 }
 #endif
 
+static c3_i
+_ce_post_guard(void)
+{
+  u3_post top_p, bot_p, mid_p;
+  c3_w    pag_w;
+
+  if ( c3y == u3a_is_north(u3R) ) {
+    bot_p = u3R->hat_p;
+    top_p = u3R->cap_p;
+  }
+  else {
+    bot_p = u3R->cap_p;
+    top_p = u3R->hat_p;
+  }
+
+  mid_p = bot_p + ((top_p - bot_p) / 2);
+  pag_w = mid_p >> u3a_page;
+
+  fprintf(stderr, "loom: old %u new %u bot %x top %x\r\n",
+          gar_pag_w, pag_w, bot_p, top_p);
+
+  // if ( 44890 == gar_pag_w ) {
+  //   fprintf(stderr, "what's up with this\r\n");
+  // }
+
+  if ( pag_w == gar_pag_w ) {
+    fprintf(stderr, "they same\r\n");
+    // if ( -1 == mprotect((void *)(u3_Loom + (pag_w << u3a_page)),
+    //                     (1 << (u3a_page + 2)),
+    //                     (PROT_READ | PROT_WRITE)) )
+    // {
+    //   fprintf(stderr, "loom: fault mprotect: %s\r\n", strerror(errno));
+    //   c3_assert(0);
+    //   return 0;
+    // }
+
+    // gar_pag_w = 0;
+
+    u3m_signal(c3__meme);
+    return 1;
+  }
+
+  gar_pag_w = pag_w;
+
+  if ( -1 == mprotect((void *)(u3_Loom + (pag_w << u3a_page)),
+                      (1 << (u3a_page + 2)),
+                      PROT_NONE) )
+  {
+    fprintf(stderr, "loom: fault mprotect: %s\r\n", strerror(errno));
+    c3_assert(0);
+    return 0;
+  }
+
+  return 1;
+}
+
 /* u3e_fault(): handle a memory event with libsigsegv protocol.
 */
 c3_i
@@ -208,6 +266,13 @@ u3e_fault(void* adr_v, c3_i ser_i)
               (u3_Loom + (pag_w << u3a_page) + (1 << u3a_page)));
     }
 #endif
+
+    if ( (pag_w == gar_pag_w) && !_ce_post_guard() ) {
+      return 0;
+    }
+    else {
+      u3P.dit_w[blk_w] &= ~(1 << bit_w);
+    }
 
     if ( 0 != (u3P.dit_w[blk_w] & (1 << bit_w)) ) {
       fprintf(stderr, "strange page: %d, at %p, off %x\r\n",
@@ -1012,6 +1077,9 @@ u3e_live(c3_o nuu_o, c3_c* dir_c)
       }
     }
   }
+
+  c3_assert( _ce_post_guard() );
+
   return nuu_o;
 }
 
@@ -1035,4 +1103,10 @@ void
 u3e_foul(void)
 {
   memset((void*)u3P.dit_w, 0xff, sizeof(u3P.dit_w));
+}
+
+void
+u3e_init(void)
+{
+  c3_assert( _ce_post_guard() );
 }
