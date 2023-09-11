@@ -8271,6 +8271,7 @@
       [%clcb *]   `[q.gen p.gen]
       [%clhp *]   `[p.gen q.gen]
       [%clkt *]   `[p.gen %clls q.gen r.gen s.gen]
+      [%clhx *]   `[p.gen %clkt q.gen r.gen s.gen t.gen]
       [%clsg *]   ?~(p.gen ~ `[i.p.gen %clsg t.p.gen])
       [%cltr *]   ?~  p.gen  ~
                   ?~(t.p.gen $(gen i.p.gen) `[i.p.gen %cltr t.p.gen])
@@ -13244,6 +13245,7 @@
               ^.  stet  ^.  limo
               :~  ['_' (rune cab %clcb expb)]
                   ['^' (rune ket %clkt expd)]
+                  ['#' (rune hax %clhx expk)]
                   ['+' (rune lus %clls expc)]
                   ['-' (rune hep %clhp expb)]
                   ['~' (rune sig %clsg exps)]
@@ -13618,6 +13620,7 @@
     ++  expb  |.(;~(goop loaf loaf))                    ::  two hoons
     ++  expc  |.(;~(goop loaf loaf loaf))               ::  three hoons
     ++  expd  |.(;~(goop loaf loaf loaf loaf))          ::  four hoons
+    ++  expk  |.(;~(goop loaf loaf loaf loaf loaf))     ::  four hoons
     ++  expe  |.(wisp)                                  ::  core tail
     ++  expf  |.(;~(goop ;~(pfix cen sym) loaf))        ::  %term and hoon
     ++  expg  |.(;~(gunk lomp loll loaf))               ::  term/spec, two hoons
