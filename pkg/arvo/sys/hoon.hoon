@@ -6420,6 +6420,7 @@
   ::                                            ::::::  tuples
     [%clcb p=hoon q=hoon]                               ::  :_ [q p]
     [%clkt p=hoon q=hoon r=hoon s=hoon]                 ::  :^ [p q r s]
+    [%clhx p=hoon q=hoon r=hoon s=hoon t=hoon]          ::  :# [p q r s t]
     [%clhp p=hoon q=hoon]                               ::  :- [p q]
     [%clls p=hoon q=hoon r=hoon]                        ::  :+ [p q r]
     [%clsg p=(list hoon)]                               ::  :~ [p ~]
@@ -8428,6 +8429,7 @@
         [%brwt *]  [%ktwt %brdt p.gen]
     ::
         [%clkt *]  [p.gen q.gen r.gen s.gen]
+        [%clhx *]  [p.gen q.gen r.gen s.gen t.gen]
         [%clls *]  [p.gen q.gen r.gen]
         [%clcb *]  [q.gen p.gen]
         [%clhp *]  [p.gen q.gen]
